@@ -38,12 +38,23 @@ namespace SB.Application.Services.Implementation
         {
             try
             {
+                //ItemResponse<T> response = await _container.ReadItemAsync<T>(id, new PartitionKey(partitionKey));
+                //return response.Resource;
+
                 ItemResponse<T> response = await _container.ReadItemAsync<T>(id, new PartitionKey(partitionKey));
-                return response.Resource;
+                T user = response.Resource;
+
+                // If T is User, deserialize `UserProfile`
+                //if (user is User userEntity)
+                //{
+                //    userEntity.DeserializeUserProfile();
+                //}
+
+                return user;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
-                return null;
+                return default; // Return default value for T (null for reference types)
             }
         }
 

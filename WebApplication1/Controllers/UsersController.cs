@@ -2,9 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SB.Application;
 using SB.Application.Features.Users.Commands;
-using SB.Application.Services.Implementation;
 using SB.Application.Services.Interface;
-using System.Text.Json;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -46,43 +44,44 @@ public class UsersController : ControllerBase
     }
 
    
-    [HttpGet("Employee/{id}")]
-    public async Task<IActionResult> GetEmployeeById(string id, string partitionKey)
-    {
-        var employer = await _employeeService.GetUserByIdAsync(id, partitionKey);
-        if (employer != null) return Ok(employer);
+    //[HttpGet("Employee/{id}")]
+    //public async Task<IActionResult> GetEmployeeById(string id, string partitionKey)
+    //{
+    //    var employee = await _employeeService.GetUserByIdAsync(id, partitionKey);
+    //    //var employee = await userService.GetUserByIdAsync<User>("12345", "partition-key");
+    //    if (employee != null) return Ok(employee);
 
-        return NotFound($"User with ID {id} not found.");
-    }
+    //    return NotFound($"User with ID {id} not found.");
+    //}
 
-    [HttpGet("Employer/{id}")]
-    public async Task<IActionResult> GetEmployerById(string id, string partitionKey)
-    {
-        var employer = await _employerService.GetUserByIdAsync(id, partitionKey);
-        if (employer != null) return Ok(employer);
+    //[HttpGet("Employer/{id}")]
+    //public async Task<IActionResult> GetEmployerById(string id, string partitionKey)
+    //{
+    //    var employer = await _employerService.GetUserByIdAsync(id, partitionKey);
+    //    if (employer != null) return Ok(employer);
 
-        return NotFound($"User with ID {id} not found.");
-    }
+    //    return NotFound($"User with ID {id} not found.");
+    //}
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var users = await _employeeService.GetAllUsersAsync();
-        return Ok(users);
-    }
+    //[HttpGet]
+    //public async Task<IActionResult> GetAll()
+    //{
+    //    var users = await _employeeService.GetAllUsersAsync();
+    //    return Ok(users);
+    //}
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(string id, [FromBody] EmployeeUser userDto)
-    {
-        if (id.ToString() != userDto.Id.ToString()) return BadRequest();
-        await _employeeService.UpdateUserAsync(userDto);
-        return NoContent();
-    }
+    //[HttpPut("{id}")]
+    //public async Task<IActionResult> Update(string id, [FromBody] EmployeeUser userDto)
+    //{
+    //    if (id.ToString() != userDto.Id.ToString()) return BadRequest();
+    //    await _employeeService.UpdateUserAsync(userDto);
+    //    return NoContent();
+    //}
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(string id)
-    {
-        await _employeeService.DeleteUserAsync(id);
-        return NoContent();
-    }
+    //[HttpDelete("{id}")]
+    //public async Task<IActionResult> Delete(string id)
+    //{
+    //    await _employeeService.DeleteUserAsync(id);
+    //    return NoContent();
+    //}
 }

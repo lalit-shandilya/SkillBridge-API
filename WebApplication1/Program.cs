@@ -90,6 +90,13 @@ builder.Services.AddSingleton<JobSearchService>();
 
 builder.Services.AddSingleton<IJobSearchRepository, JobSearchRepository>();
 builder.Services.AddSingleton<IUserProfileRepository, UserProfileRepository>();
+string cosmosEndpoint = builder.Configuration["CosmosDb:AccountEndpoint"]!;
+string cosmosKey = builder.Configuration["CosmosDb:AccountKey"]!;
+string databaseId = builder.Configuration["CosmosDb:DatabaseName"]!;
+string containerId = builder.Configuration["CosmosDb:ProfilesContainer"]!;
+
+var cosmosDbService = new CosmosDbService(cosmosEndpoint, cosmosKey, databaseId, containerId);
+builder.Services.AddSingleton(cosmosDbService);
 
 builder.Services.AddMediatR(config =>
 {

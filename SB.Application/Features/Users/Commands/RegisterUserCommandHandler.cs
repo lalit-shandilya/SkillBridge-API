@@ -5,25 +5,12 @@ using SB.Domain.ValueObjects;
 using SB.Infrastructure.Persistence;
 
 
-// Application Layer - Register User Command
-
-
 namespace SB.Application.Features.Users.Commands;
 
 public class RegisterUserCommand : IRequest<string>
 {
     public EmployeeUser UserProfile { get; set; }
-
-
 }
-//public class userInfo
-//{
-//    public Name name { get; set; }
-//    public string Email { get; set; }
-//    public Address Address { get; set; }
-//    public string Phone { get; set; }
-
-//}
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
 {

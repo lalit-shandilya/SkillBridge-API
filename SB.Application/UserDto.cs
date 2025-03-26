@@ -1,5 +1,6 @@
 ﻿using SB.Domain.Enums;
 using SB.Domain.ValueObjects;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace SB.Application
@@ -16,9 +17,8 @@ namespace SB.Application
         public Address Address { get; set; }
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
-
+       
     }
-
     public class EmployeeUser : User
     {
         public List<Skill> Skills { get; set; } // List of User Skills along with proficiency level i.e. Beginner, Intermediate, Expert                                                
@@ -38,12 +38,12 @@ namespace SB.Application
 
         public string CompanyWebsiteUrl { get; set; }
 
-        public List<CompanyLocation> CompanyLocations { get; set; }
+        public List<CompanyLocation1> CompanyLocations { get; set; }
         [JsonIgnore]
         public string Role { get; set; } = "Employer";
     }
 
-    public class CompanyLocation
+    public class CompanyLocation1
     {
         public string CompanyAddress { get; set; }
         public string CompanyCity { get; set; }
