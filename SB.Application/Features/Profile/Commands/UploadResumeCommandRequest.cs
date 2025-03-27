@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SB.Application.Features.Profile.Commands;
 
 
-    public class UploadResumeCommandRequest : IRequest<string>
+    public class UploadResumeCommandRequest : IRequest<UploadResumeResponse>
     {
         public IFormFile File { get; }
 

@@ -11,7 +11,7 @@ namespace SB.Domain.Model
         [JsonProperty("id")]
         public string Id { get; set; } = Guid.NewGuid().ToString(); // CosmosDB requires an ID
         [JsonProperty("email")]
-        public string Email { get; set; } // Partition Key
+        public string Email { get; set; } // Partition Key 
         public string PhoneNumber { get; set; }
         public string Role { get; set; }
         public Name Name { get; set; }
@@ -27,10 +27,14 @@ namespace SB.Domain.Model
     public class EmployeeProfile
     {
         public List<Skill> Skills { get; set; } = new();
+        public List<Skill> ExtractedSkills { get; set; } = new();
+        public bool UserConsentforSkills { get; set; }
+        
         public List<string> Certifications { get; set; } = new();
         public List<string> AppliedJobs { get; set; } = new();
         public string ResumeUrl { get; set; }
         public string LinkedInProfileUrl { get; set; }
+        public int YearsOfExperience { get; set; }
     }
 
     public class EmployerProfile
@@ -40,6 +44,6 @@ namespace SB.Domain.Model
         public IList<CompanyLocation> CompanyLocations { get; set; } = new List<CompanyLocation>();
     }
 
-    public record CompanyLocation(string Address, string City, string State, string Country);
+    public record CompanyLocation(string Address, string City, string State, string Country, string? Zipcode);
 
 }

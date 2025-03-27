@@ -25,12 +25,11 @@ namespace SB.Infrastructure.Services
         {
             try
             {
-
                 //var response = await _container.ReadItemAsync<UserProfile>(id, new PartitionKey(email));
                 //return response.Resource;
 
                 var query = new QueryDefinition("SELECT * FROM c WHERE c.email = @email")
-    .WithParameter("@email", email);
+                  .WithParameter("@email", email);
 
                 var iterator = _container.GetItemQueryIterator<UserProfile>(query);
                 var results = new List<UserProfile>();
@@ -47,7 +46,7 @@ namespace SB.Infrastructure.Services
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 return null;
-            }
+            } 
         }
 
         // Update User Profile

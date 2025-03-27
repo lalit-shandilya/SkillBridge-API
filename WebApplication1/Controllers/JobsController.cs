@@ -41,8 +41,8 @@ public class JobsController : ControllerBase
     {
         try
         {
-            var fileUrl = await _mediator.Send(new UploadResumeCommandRequest(req.File));
-            return Ok(new { FileUrl = fileUrl });
+            var uploadResumeResponse = await _mediator.Send(new UploadResumeCommandRequest(req.File));
+            return Ok(uploadResumeResponse);
         }
         catch (Exception ex)
         {

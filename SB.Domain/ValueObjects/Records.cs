@@ -1,6 +1,8 @@
-﻿namespace SB.Domain.ValueObjects
+﻿using System.Reflection.Emit;
+
+namespace SB.Domain.ValueObjects
 {
-    public record Address(string? Street, string? City, string? State, string? Country);
+    public record Address(string? Street, string? City, string? State, string? Country, string? Zipcode);
     public record Name(string FirstName, string? LastName);
 
     public record Skill(string Name, int ProficiencyLevel);
