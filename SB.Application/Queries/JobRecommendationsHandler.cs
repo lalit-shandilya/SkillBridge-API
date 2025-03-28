@@ -5,7 +5,6 @@ using SB.Domain;
 using SB.Domain.Model;
 using SB.Infrastructure.Repositories.Interfaces;
 
-
 namespace SB.Application.Queries;
 
 public class JobRecommendationsHandler : IRequestHandler<JobRecommendationsQuery, List<JobPosting>>
@@ -24,7 +23,7 @@ public class JobRecommendationsHandler : IRequestHandler<JobRecommendationsQuery
         var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(request.UserId);
         if (userProfile == null) return new List<JobPosting>();
         //String.Join(",", lst)
-        string searchQuery = String.Join(" OR ", userProfile.EmployeeProfile); // Match user skills to jobs
+        string searchQuery = String.Join(" OR ", userProfile.EmployeeProfile.Skills); // Match user skills to jobs
         var options = new SearchOptions { Size = 10 };
         var response = await _searchClient.SearchAsync<JobPosting>(searchQuery, options);
 

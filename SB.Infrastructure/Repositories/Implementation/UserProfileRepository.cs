@@ -46,10 +46,10 @@ namespace SB.Infrastructure.Repositories.Implementation
             return null;
         }
 
-        public async Task<UserProfile> GetUserProfileByIdAsync(string userId)
+        public async Task<UserProfile> GetUserProfileByIdAsync(string emailId)
         {
-            var query = new QueryDefinition("SELECT * FROM c WHERE c.id = @id")
-                        .WithParameter("@id", userId);
+            var query = new QueryDefinition("SELECT * FROM c WHERE c.email = @id")
+                        .WithParameter("@id", emailId);
 
             using FeedIterator<UserProfile> resultSet = _container.GetItemQueryIterator<UserProfile>(query);
             try

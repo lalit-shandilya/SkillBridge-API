@@ -9,6 +9,7 @@ namespace SB.Infrastructure.Services
         private readonly Container _container;
 
         public CosmosDbService(string endpoint, string key, string databaseId, string containerId)
+        
         {
             var cosmosClient = new CosmosClient(endpoint, key);
             _container = cosmosClient.GetDatabase(databaseId).GetContainer("UserProfiles");
