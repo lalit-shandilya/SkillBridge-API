@@ -1,4 +1,5 @@
-﻿using SB.Domain.Model;
+﻿using Microsoft.AspNetCore.Http;
+using SB.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace SB.Infrastructure.Repositories.Interfaces
     public interface IJobSearchRepository
     {
         Task<List<JobPosting>> SearchJobsBySkillsAsync(string query);
+        Task<List<string>> ExtractSkills(IFormFile File);
     }
 }

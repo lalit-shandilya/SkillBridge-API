@@ -1,28 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
-using Azure;
+﻿using Azure;
 using Azure.AI.DocumentIntelligence;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace SB.Application.Commands;
 
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Azure;
-using Azure.AI.DocumentIntelligence;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 
 public class ExtractSkillsFromResumeHandler : IRequestHandler<ExtractSkillsFromResumeCommand, List<string>>
 {

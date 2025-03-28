@@ -19,29 +19,29 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("registerEmployee")]
-    public async Task<IActionResult> RegisterEmployee([FromBody] RegisterUserCommand command)
-    {
-        if (command == null)
-        {
-            return BadRequest("Invalid user data.");
-        }
+    //[HttpPost("registerEmployee")]
+    //public async Task<IActionResult> RegisterEmployee([FromBody] RegisterUserCommand command)
+    //{
+    //    if (command == null)
+    //    {
+    //        return BadRequest("Invalid user data.");
+    //    }
 
-        var userId = await _mediator.Send(command);
-        return Ok(new { UserId = userId });        
-    }
+    //    var userId = await _mediator.Send(command);
+    //    return Ok(new { UserId = userId });        
+    //}
 
-    [HttpPost("registerEmployer")]
-    public async Task<IActionResult> RegisterEmployer([FromBody] RegisterEmployerCommand command)
-    {
-        if (command == null)
-        {
-            return BadRequest("Invalid user data.");
-        }
+    //[HttpPost("registerEmployer")]
+    //public async Task<IActionResult> RegisterEmployer([FromBody] RegisterEmployerCommand command)
+    //{
+    //    if (command == null)
+    //    {
+    //        return BadRequest("Invalid user data.");
+    //    }
 
-        var userId = await _mediator.Send(command);
-        return Ok(new { UserId = userId });
-    }
+    //    var userId = await _mediator.Send(command);
+    //    return Ok(new { UserId = userId });
+    //}
 
    
     //[HttpGet("Employee/{id}")]
