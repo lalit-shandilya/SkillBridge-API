@@ -189,6 +189,12 @@ if (app.Environment.IsDevelopment())
 //    options.ClientSecret = "Your-Client-Secret";
 //});
 
+// Use CORS before other middleware
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
