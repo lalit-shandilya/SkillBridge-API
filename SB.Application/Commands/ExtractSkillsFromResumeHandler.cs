@@ -78,7 +78,7 @@ public class ExtractSkillsFromResumeHandler : IRequestHandler<ExtractSkillsFromR
     private List<string> ExtractSkills(string text)
     {
         var knownSkills = new HashSet<string> { "Installation", "Repair", "Welding", "Soldering","Plumbing", "Leak Detection","woodwork", "framing","finishing","drawings","operating hand tools",
-            "operating power tools","Knowledge of safety protocols","Expertise in cooking techniques","Inventory management","Handling customer feedback","Grilling","Grilling & frying techniques","Knife handling & chopping"
+            "operating power tools","Knowledge of safety protocols","Expertise in cooking techniques","Inventory management","Handling customer feedback","Grilling","Grilling & frying techniques","Knife handling & chopping",
             "C#", "ASP.NET", "Azure", "AI", "SQL", "Python", "Java", "JavaScript", "Machine Learning", "DevOps" };
         var extractedSkills = new List<string>();
 
