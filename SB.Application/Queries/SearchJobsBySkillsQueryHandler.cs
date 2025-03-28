@@ -7,8 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace SB.Application.Queries
-{
-    
+{   
 
     public class SearchJobsBySkillsQueryHandler : IRequestHandler<SearchJobsBySkillsQuery, List<JobPosting>>
     {
@@ -23,9 +22,8 @@ namespace SB.Application.Queries
 
         public async Task<List<JobPosting>> Handle(SearchJobsBySkillsQuery request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Searching jobs for skills: {Skills}", request.Skills);
-
-            return await _jobSearchRepository.SearchJobsBySkillsAsync(request.Skills);
+            string formattedQuery = string.Join(" OR ", request.Skills); // Convert list into OR query
+            return await _jobSearchRepository.SearchJobsBySkillsAsync(formattedQuery);
         }
     }
 

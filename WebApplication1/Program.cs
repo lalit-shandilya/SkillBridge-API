@@ -90,6 +90,7 @@ builder.Services.AddSingleton<JobSearchService>();
 
 builder.Services.AddSingleton<IJobSearchRepository, JobSearchRepository>();
 builder.Services.AddSingleton<IUserProfileRepository, UserProfileRepository>();
+builder.Services.AddSingleton<IJobRepository, JobRepository>();
 string cosmosEndpoint = builder.Configuration["CosmosDb:AccountEndpoint"]!;
 string cosmosKey = builder.Configuration["CosmosDb:AccountKey"]!;
 string databaseId = builder.Configuration["CosmosDb:DatabaseName"]!;
@@ -108,7 +109,12 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssembly(typeof(CreateJobPostingHandler).Assembly); 
     config.RegisterServicesFromAssembly(typeof(SearchJobsBySkillsQueryHandler).Assembly);
     config.RegisterServicesFromAssemblies(typeof(UploadResumeHandler).Assembly);
+    config.RegisterServicesFromAssembly(typeof(GetJobsByEmployerIdQueryHandler).Assembly);
+    config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
 });
+
+
+
 
 // Add Controllers
 builder.Services.AddControllers();

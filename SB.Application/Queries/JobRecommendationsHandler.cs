@@ -8,8 +8,6 @@ using SB.Infrastructure.Repositories.Interfaces;
 
 namespace SB.Application.Queries;
 
-
-
 public class JobRecommendationsHandler : IRequestHandler<JobRecommendationsQuery, List<JobPosting>>
 {
     private readonly SearchClient _searchClient;
@@ -23,21 +21,20 @@ public class JobRecommendationsHandler : IRequestHandler<JobRecommendationsQuery
 
     public async Task<List<JobPosting>> Handle(JobRecommendationsQuery request, CancellationToken cancellationToken)
     {
-        //var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(request.UserId);
-        //if (userProfile == null) return new List<JobPosting>();
+        var userProfile = await _userProfileRepository.GetUserProfileByIdAsync(request.UserId);
+        if (userProfile == null) return new List<JobPosting>();
+        //String.Join(",", lst)
+        string searchQuery = String.Join(" OR ", userProfile.EmployeeProfile); // Match user skills to jobs
+        var options = new SearchOptions { Size = 10 };
+        var response = await _searchClient.SearchAsync<JobPosting>(searchQuery, options);
 
-        //string searchQuery = string.Join(" OR ", userProfile.skills); // Match user skills to jobs
-        //var options = new SearchOptions { Size = 10 };
-        //var response = await _searchClient.SearchAsync<JobPosting>(searchQuery, options);
+        List<JobPosting> jobs = new List<JobPosting>();
+        await foreach (var result in response.Value.GetResultsAsync())
+        {
+            jobs.Add(result.Document);
+        }
 
-        //List<JobPosting> jobs = new List<JobPosting>();
-        //await foreach (var result in response.Value.GetResultsAsync())
-        //{
-        //    jobs.Add(result.Document);
-        //}
-
-        // return jobs;
-        return null;
+        return jobs;        
     }
 }
 

@@ -1,54 +1,77 @@
-﻿using Azure.Search.Documents.Models;
-using Azure.Search.Documents;
-using Azure;
-using Microsoft.Extensions.Options;
-using SB.Domain.Model;
-using SB.Infrastructure.Repositories.Interfaces;
-using System;
-using Azure;
+﻿using Azure;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using SB.Domain.Model;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SB.Domain;
+using SB.Domain.Model;
+using SB.Infrastructure.Repositories.Interfaces;
+using System.Text.Json;
 
 namespace SB.Infrastructure.Repositories.Implementation;
-
-
-
 
 public class JobSearchRepository : IJobSearchRepository
 {
     private readonly SearchClient _searchClient;
+    private readonly ILogger<JobSearchRepository> _logger;
 
-    public JobSearchRepository(IOptions<AzureCognitiveSearch> settings)
+    public JobSearchRepository(IOptions<AzureCognitiveSearch> settings, ILogger<JobSearchRepository> logger)
     {
         var endpoint = new Uri($"https://{settings.Value.ServiceName}.search.windows.net");
         var credential = new AzureKeyCredential(settings.Value.ApiKey);
 
         _searchClient = new SearchClient(endpoint, settings.Value.IndexNameJob, credential);
+        _logger = logger;
     }
 
     public async Task<List<JobPosting>> SearchJobsBySkillsAsync(string query)
     {
+        _logger.LogInformation("Starting job search for skills: {Query}", query);
+
         var options = new SearchOptions
         {
             IncludeTotalCount = true,
-            QueryType = SearchQueryType.Simple,
-            SearchFields = { "Skills" },  // 🔹 Searches within the "skills" field
-            Select = { "id", "Title", "Description", "Skills" },
-            Size = 10  // 🔹 Returns max 10 results
+            QueryType = SearchQueryType.Full,  // Use Full for better text matching
+            SearchMode = SearchMode.All,       // Ensures all terms in query must match
+            SearchFields = { "Skills" },       // Ensure this field is searchable in Azure Index
+            Select = { "id", "Title", "Description", "Skills", "Location", "Company", "Salary" },
+            Size = 10
         };
-        await RunIndexer();
 
+        RunIndexer();
+        _logger.LogInformation("Search options: {@Options}", options);
+
+        // Perform search
         var response = await _searchClient.SearchAsync<JobPosting>(query, options);
 
-        return response.Value.GetResults().Select(r => r.Document).ToList();
+        var jobs = response.Value.GetResults()
+            .Select(r =>
+            {
+                var job = r.Document;
+
+                // Ensure Skills is correctly deserialized from JSON
+                if (job.Skills == null || job.Skills.Count == 0)
+                {
+                    try
+                    {
+                        job.Skills = JsonSerializer.Deserialize<List<string>>(r.Document.SkillsAsString) ?? new List<string>();
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError("Error deserializing Skills field: {Error}", ex.Message);
+                        job.Skills = new List<string>();
+                    }
+                }
+
+                return job;
+            })
+            .ToList();
+
+        _logger.LogInformation("Found {Count} jobs matching skills.", jobs.Count);
+
+        return jobs;
     }
-    public async Task RunIndexer()
+    private async Task RunIndexer()
     {
         string searchServiceName = "searchskillservice";
         string indexerName = "skillsearchindexer";
@@ -71,5 +94,5 @@ public class JobSearchRepository : IJobSearchRepository
             Console.WriteLine($"Error triggering indexer: {error}");
         }
     }
-}
 
+}

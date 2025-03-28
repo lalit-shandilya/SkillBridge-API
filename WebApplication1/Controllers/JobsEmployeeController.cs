@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SB.Application;
+using SB.Application.Commands;
 using SB.Application.Features.Profile.Commands;
 using SB.Application.Queries;
 using SB.Domain.Model;
@@ -11,15 +12,17 @@ namespace SB.API.Controllers;
 
 
 [ApiController]
-[Route("jobs")]
-public class JobsController : ControllerBase
+[Route("api")]
+public class JobsEmployeeController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public JobsController(IMediator mediator)
+    public JobsEmployeeController(IMediator mediator)
     {
         _mediator = mediator;
     }
+
+
 
     [HttpGet("search")]
     public async Task<ActionResult<List<JobSearchModel>>> SearchJobs([FromQuery] string query)
@@ -28,12 +31,7 @@ public class JobsController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("searchSkill")]
-    public async Task<ActionResult<List<JobPosting>>> SearchJobsBySkills([FromQuery] string query)
-    {
-        var result = await _mediator.Send(new SearchJobsBySkillsQuery(query));
-        return Ok(result);
-    }
+ 
 
     [HttpPost("uploadResume")]
     [Consumes("multipart/form-data")]
@@ -48,6 +46,19 @@ public class JobsController : ControllerBase
         {
             return StatusCode(500, $"Internal Server Error: {ex.Message}");
         }
+    }
+
+    [HttpPost("extract-skills")]
+    public async Task<IActionResult> ExtractSkills(ExtractSkillsFromResumeRequest request)
+    {
+        if (request.File == null || request.File.Length == 0)
+        {
+            return BadRequest("Invalid file.");
+        }
+
+        var skills = await _mediator.Send(new ExtractSkillsFromResumeCommand(request.File));
+
+        return Ok(new { skills });
     }
 
     //[HttpPost("extract-skills")]

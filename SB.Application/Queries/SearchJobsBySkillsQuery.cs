@@ -8,11 +8,11 @@ namespace SB.Application.Queries
     
     public class SearchJobsBySkillsQuery : IRequest<List<JobPosting>>
     {
-        public string Skills { get; set; }
+        public List<string> Skills { get; set; }
 
-        public SearchJobsBySkillsQuery(string skills)
+        public SearchJobsBySkillsQuery(List<string> skills)
         {
-            Skills = skills;
+            Skills = skills ?? new List<string>();
         }
     }
 
