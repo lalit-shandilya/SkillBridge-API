@@ -78,6 +78,18 @@ namespace SB.API.Controllers
             var profiles = await _mediator.Send(query);
             return Ok(profiles);
         }
+
+        [HttpPut("{jobId}")]
+        public async Task<IActionResult> UpdateJobPosting(string jobId, [FromBody] UpdateJobPostingCommand command)
+        {
+            if (jobId != command.JobId)
+            {
+                return BadRequest("Job ID in the URL does not match the request body.");
+            }
+
+            var updatedJob = await _mediator.Send(command);
+            return Ok(updatedJob);
+        }
         //[HttpGet("{id}")]
         //public async Task<IActionResult> GetJobById(string id)
         //{

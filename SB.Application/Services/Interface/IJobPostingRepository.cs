@@ -1,7 +1,4 @@
 ﻿using SB.Domain.Model;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using SB.Domain.Model;
 
 namespace SB.Application.Services.Interface
 {
@@ -11,6 +8,7 @@ namespace SB.Application.Services.Interface
         Task<JobPosting> GetJobPostingByIdAsync(string jobId);
         Task<List<JobPosting>> GetAllJobPostingsAsync();
         Task DeleteJobPostingAsync(string jobId);
+        Task UpdateAsync(JobPosting entity);
     }
 }
 

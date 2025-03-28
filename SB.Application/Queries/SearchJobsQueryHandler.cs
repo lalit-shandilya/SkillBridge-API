@@ -25,10 +25,7 @@ namespace SB.Application.Queries
 
         public async Task<List<JobSearchModel>> Handle(SearchJobsQuery request, CancellationToken cancellationToken)
         {
-            return await _searchService.SearchJobsAsync(request.Query);
+            return await _searchService.SearchJobsAsync(request.SearchbySkill,request.SearchbyLocation,request.SearchbyEmployerName);
         }
     }
-
-
-  
 }

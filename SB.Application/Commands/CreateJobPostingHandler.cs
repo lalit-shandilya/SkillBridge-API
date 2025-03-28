@@ -23,6 +23,7 @@ namespace SB.Application.Commands
                 Description = request.Description,
                 MinExperience = request.MinExperience,
                 Skills = request.RequiredSkills,
+                IsActive=request.IsActive,
                 Location = request.Location,
                 Company = request.Company,
                 PostedDate=DateTime.Now.Date,

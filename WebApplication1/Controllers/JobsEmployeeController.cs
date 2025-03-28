@@ -25,9 +25,9 @@ public class JobsEmployeeController : ControllerBase
 
 
     [HttpGet("search")]
-    public async Task<ActionResult<List<JobSearchModel>>> SearchJobs([FromQuery] string query)
+    public async Task<ActionResult<List<JobSearchModel>>> SearchJobs( string searchbySkill, string? searchbyLocation, string? searchbyEmployerName)
     {
-        var result = await _mediator.Send(new SearchJobsQuery(query));
+        var result = await _mediator.Send(new SearchJobsQuery(searchbySkill,searchbyLocation , searchbyEmployerName ));
         return Ok(result);
     }
 

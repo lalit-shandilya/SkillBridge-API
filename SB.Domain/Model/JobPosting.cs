@@ -16,6 +16,7 @@ namespace SB.Domain.Model
 
         public string EmployerId { get; set; }
         public string Title { get; set; }
+        public bool IsActive { get; set; }
         public string Description { get; set; }
         public int MinExperience { get; set; }
         //public List<string> Skills { get; set; }

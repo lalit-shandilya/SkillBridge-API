@@ -24,6 +24,7 @@ namespace SB.Infrastructure.Services
         public async Task<UserProfile?> GetUserProfileAsync(string email)
         {
             try
+
             {
                 //var response = await _container.ReadItemAsync<UserProfile>(id, new PartitionKey(email));
                 //return response.Resource;
