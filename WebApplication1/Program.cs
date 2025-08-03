@@ -20,8 +20,8 @@ using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
-// Access the configuration
-IConfiguration configuration = builder.Configuration;
+
+
 
 // Register CosmosClient FIRST
 builder.Services.AddSingleton<CosmosClient>(sp =>
@@ -59,8 +59,9 @@ builder.Services.AddSingleton<ProfileDbContext>(sp =>
 
 builder.Services.AddSingleton<DocumentIntelligenceClient>(sp =>
 {
-    string endpoint = builder.Configuration["DocumentIntelligence:Endpoint"];
-    string apiKey = builder.Configuration["DocumentIntelligence:ApiKey"];
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    var endpoint = configuration["DocumentIntelligence:Endpoint"];
+    var apiKey = configuration["DocumentIntelligence:ApiKey"];
 
     var credential = new AzureKeyCredential(apiKey);
     var client = new DocumentIntelligenceClient(new Uri(endpoint), credential);
@@ -137,8 +138,9 @@ builder.Services.AddHttpClient();
 
 // Register UploadResumeCommandHandler
 //builder.Services.AddScoped<SB.Application.Features.Profile.Commands.UploadResumeCommandHandler>();
-
-string blobConnectionString = "DefaultEndpointsProtocol=https;AccountName=skillbridgeblob;AccountKey=1xvZxvxLgb5XMM2Lq58w94/UBu5M+QCnlMHkmaHVDzCAJA5tOChcRTvRXi6AVrNgRC1XFw9tHJLn+AStWtp2wg==;EndpointSuffix=core.windows.net"; // builder.Configuration["ConnectionStringsBlob:AzureBlobStorage"]; // configuration.GetConnectionString("ConnectionStringsBlob:AzureBlobStorage");
+// Access the configuration
+IConfiguration configuration = builder.Configuration;
+string blobConnectionString = builder.Configuration["ConnectionStringsBlob:AzureBlobStorage"];
 // Load settings from configuration
 builder.Services.Configure<AzureCognitiveSearch>(configuration.GetSection("AzureCognitiveSearch"));
 builder.Services.Configure<DocumentIntelligence>(configuration.GetSection("DocumentIntelligence"));
