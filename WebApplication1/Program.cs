@@ -140,7 +140,7 @@ builder.Services.AddHttpClient();
 //builder.Services.AddScoped<SB.Application.Features.Profile.Commands.UploadResumeCommandHandler>();
 // Access the configuration
 IConfiguration configuration = builder.Configuration;
-string blobConnectionString = "";// configuration["ConnectionStringsBlob:AzureBlobStorage"];
+string blobConnectionString = configuration["ConnectionStringsBlob:AzureBlobStorage"];
 // Load settings from configuration
 builder.Services.Configure<AzureCognitiveSearch>(configuration.GetSection("AzureCognitiveSearch"));
 builder.Services.Configure<DocumentIntelligence>(configuration.GetSection("DocumentIntelligence"));
